@@ -6,7 +6,7 @@ class Game():
         self.cols = 0
         self.rows = 0
         self.board = []
-        self.awsners = []
+        self.answers = []
 
     def create_board(self):
         print("Insert the number of trashcan collums [3 to 16]")
@@ -31,13 +31,13 @@ class Game():
             row = self.board[i*self.cols:(i+1)*self.cols]
             print(' '.join(f'{element: <}' for element in row))
 
-    def choose_awsner(self):
-        self.awsners = []
-        self.awsners.append(random.randint(0, self.cols*self.rows))
-        while len(self.awsners) < 2:
-            num = random.choice((self.awsners[0] + 1, self.awsners[0] - 1, self.awsners[0] + self.cols, self.awsners[0] - self.cols))
-            if num in range(0, self.rows * self.cols) and not (self.awsners[0] - num in (1, -1) and self.awsners[0] // self.cols == num // self.cols):
-                self.awsners.append(num)
+    def choose_answer(self):
+        self.answers = []
+        self.answers.append(random.randint(0, self.cols*self.rows))
+        while len(self.answers) < 2:
+            num = random.choice((self.answers[0] + 1, self.answers[0] - 1, self.answers[0] + self.cols, self.answers[0] - self.cols))
+            if num in range(0, self.rows * self.cols) and not (self.answers[0] - num in (1, -1) and self.answers[0] // self.cols == num // self.cols):
+                self.answers.append(num)
     
     def validate_input(self, min, max):
         value = 0
@@ -76,7 +76,7 @@ class Game():
         playing = self.greet()
         while playing == True:
             self.create_board()
-            self.choose_awsner()
+            self.choose_answer()
             playing = self.gameplay_loop()
         else:
             print("Thank you for playing!!!")
@@ -89,9 +89,9 @@ class Game():
             guess = input()
             try: guess = int(guess)
             except: continue
-            if guess-1 in self.awsners:
+            if guess-1 in self.answers:
                 self.update_board_correct(guess)
-                self.awsners.remove(guess-1)
+                self.answers.remove(guess-1)
                 phase = 1
             else:
                 self.update_board(guess)
@@ -102,7 +102,7 @@ class Game():
             guess = input()
             try: 
                 guess = int(guess)
-                if guess-1 in self.awsners:
+                if guess-1 in self.answers:
                     self.update_board_correct(guess)
                     self.print_board()
                     print("Congratulations squared!!! You're the epitome of intelect.")
@@ -111,7 +111,7 @@ class Game():
                     self.print_board()
                     print("Git gud, no way you're gonna face that electric rat this way!")
             except:
-                print("That's not even a real awsner LMAO")
+                print("That's not even a real answer LMAO")
         print("/n Do you wanna play some more? [yes or no]")
         ending = input()
         if ending in ("yes", "YES", "y", "Y", "Yes"):
